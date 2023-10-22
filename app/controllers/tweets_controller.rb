@@ -1,4 +1,6 @@
 class TweetsController < ApplicationController
+  before_action :authenticate_user!
+  
   def index
     @tweet = Tweet.new
     @tweets = Tweet.all.order(created_at: :asc)
@@ -10,12 +12,14 @@ class TweetsController < ApplicationController
       if @tweet.save
         format.turbo_stream
       else
-        format.html do
+        format.html do 
           flash[:tweet_errors] = @tweet.errors.full_messages
           redirect_to root_path
+        end
       end
-    end
+      end
   end
+
   def destroy
   end
 
@@ -24,5 +28,4 @@ class TweetsController < ApplicationController
   def tweet_params
     params.require(:tweet).permit(:body)
   end
-  
 end
