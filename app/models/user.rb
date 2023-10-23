@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-has_person_name
+
 validates_uniqueness_of :username
 
 has_many :tweets
